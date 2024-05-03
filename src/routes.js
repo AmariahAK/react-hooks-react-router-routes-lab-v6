@@ -1,9 +1,11 @@
+// In your Routes.js file
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Home from './pages/Home';
 import Directors from './pages/Directors';
 import Actors from './pages/Actors';
 import Movie from './pages/Movie';
+import ErrorPage from './pages/ErrorPage'; 
 
 const routes = [
   {
@@ -25,6 +27,10 @@ const routes = [
     path: '/movie/:id',
     component: Movie,
     exact: true
+  },
+  {
+    path: '*',
+    component: ErrorPage
   }
 ];
 
