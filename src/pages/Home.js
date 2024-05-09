@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import MovieCard from '../components/MovieCard';
+import { useEffect, useState } from "react";
+import MovieCard from "../components/MovieCard";
+import NavBar from "../components/NavBar";
 
 function Home() {
-  const [movies, setMovies] = useState([]);
-
-  // Fetch movies data using useEffect
+  const [data, setData] = useState([]);
   useEffect(() => {
-    // Fetch movies data and set it to the movies state
-     fetchMovies().then(data => setMovies(data));
+    fetch("http://localhost:4000/movies")
+      .then((r) => r.json())
+      .then((data) => setData(data));
   }, []);
-
+  console.log(data);
   return (
     <>
       <header>
-        <h1>Home Page</h1>
+        <NavBar />
       </header>
       <main>
-        {/* Render list of movies using MovieCard components */}
-        {movies.map(movie => (
-          <MovieCard key={movie.id} title={movie.title} id={movie.id} />
+        <h1>Home Page</h1>
+        {data.map((items) => (
+          <MovieCard key={items.id} title={items.title} id={items.id} />
         ))}
       </main>
     </>
