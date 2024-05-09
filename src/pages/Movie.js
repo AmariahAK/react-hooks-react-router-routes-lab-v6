@@ -1,34 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from "react";
+import NavBar from "../components/NavBar";
+import { useParams } from "react-router-dom";
 
 function Movie() {
-  // Get URL parameter data using useParams
-  const { id } = useParams();
-  const [movie, setMovie] = useState(null);
-
-  // Fetch movie data using useEffect
+  const [movies, setMovies] = useState({});
+  const params = useParams();
+  const movieId = params.id;
   useEffect(() => {
-    // Fetch movie data based on the id parameter
-    fetchMovieById(id).then(data => setMovie(data));
-  }, [id]);
-
-  if (!movie) {
-    return <div>Loading...</div>; // Display loading indicator while fetching movie data
-  }
-
+    fetch(`http://localhost:4000/movies/${movieId}`)
+      .then((r) => r.json())
+      .then((data) => {
+        setMovies(data);
+      });
+  }, [movieId]);
+  const genres = movies.genres
+    ? movies.genres.map((genre) => <span key={genre}>{genre}</span>)
+    : null;
   return (
     <>
       <header>
-        <h1>{movie.title}</h1>
+        <NavBar />
       </header>
       <main>
-        <p>Time: {movie.time}</p>
-        <div>
-          Genres:
-          {movie.genres.map((genre, index) => (
-            <span key={index}>{genre}</span>
-          ))}
-        </div>
+        <h1>{movies.title}</h1>
+        <p>{movies.time}</p>
+        <p>{genres}</p>
       </main>
     </>
   );
